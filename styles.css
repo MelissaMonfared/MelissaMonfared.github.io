@@ -75,7 +75,8 @@ p { margin: 0 0 18px; max-width: var(--measure); text-align: justify; hyphens: a
 .bio-row { display: grid; grid-template-columns: 130px 1fr; gap: 8px 24px; margin-bottom: 20px; align-items: start; }
 .bio-row:last-child { margin-bottom: 0; }
 .bio-row p { margin: 0; max-width: var(--measure); }
-.bio-icon { width: 26px; height: 26px; color: var(--color-accent); opacity: 0.55; }
+.bio-icon { width: 26px; height: 26px; color: var(--viz-y1); animation: skill-icon-color 3.6s ease-in-out infinite; }
+.bio-icon * { stroke: currentColor; }
 @media (max-width: 640px) {
   .bio-row { grid-template-columns: 1fr; gap: 6px; }
 }
@@ -105,7 +106,7 @@ a:hover { color: var(--color-accent-hover); }
 }
 @media (prefers-reduced-motion: reduce) {
   .mini-viz .v-b, .mini-viz .v-a { animation: none; opacity: 0.8; }
-  .skill-icon { animation: none; color: var(--viz-y1); }
+  .skill-icon, .bio-icon { animation: none; color: var(--viz-y1); }
 }
 .mini-viz-caption { font-family: var(--font-sans); font-size: 0.8rem; color: var(--color-ink-soft); margin-top: 10px; }
 
