@@ -55,6 +55,9 @@ img { max-width: 100%; }
 
 /* Header */
 .site-header { padding: 56px 0 32px; border-bottom: 1px solid var(--color-line); margin-bottom: 40px; }
+.header-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 28px; flex-wrap: wrap-reverse; }
+.header-text { flex: 1; min-width: 240px; }
+.profile-photo { width: 128px; height: 128px; border-radius: 50%; object-fit: cover; flex: none; box-shadow: 0 3px 14px rgba(30,78,121,0.18); }
 .site-name { font-family: var(--font-serif); font-weight: 600; font-size: clamp(1.75rem, 5.2vw, 2.35rem); margin: 0 0 8px; letter-spacing: -0.01em; }
 .site-name a { color: var(--color-ink); text-decoration: none; }
 .site-tagline { font-family: var(--font-sans); color: var(--color-ink-soft); font-size: 1.05rem; margin: 0 0 28px; }
