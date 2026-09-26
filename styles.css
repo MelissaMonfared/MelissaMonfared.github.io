@@ -72,8 +72,13 @@ h2 { font-family: var(--font-serif); font-weight: 600; font-size: 1.5rem; margin
 section + section { margin-top: 56px; }
 p { margin: 0 0 18px; max-width: var(--measure); text-align: justify; hyphens: auto; }
 .intro { font-size: 1.05rem; color: var(--color-ink-soft); font-family: var(--font-sans); max-width: var(--measure-wide); }
-.bio p:last-child { margin-bottom: 0; }
-.bio p { max-width: 854px; }
+.bio-row { display: grid; grid-template-columns: 130px 1fr; gap: 8px 24px; margin-bottom: 20px; align-items: start; }
+.bio-row:last-child { margin-bottom: 0; }
+.bio-row p { margin: 0; max-width: var(--measure); }
+.bio-icon { width: 26px; height: 26px; color: var(--color-accent); opacity: 0.55; }
+@media (max-width: 640px) {
+  .bio-row { grid-template-columns: 1fr; gap: 6px; }
+}
 a { color: var(--color-accent); }
 a:hover { color: var(--color-accent-hover); }
 
