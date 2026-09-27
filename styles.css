@@ -12,6 +12,7 @@
   --viz-b: #bcd6e3;
   --viz-a: #c9ddd5;
   --viz-c: #e9e2d2;
+  --viz-y-pale: #b8e0e6;
   --viz-y1: #d9ed92;
   --viz-y2: #ffee99;
   --viz-y3: #a8d8ea;
@@ -95,6 +96,7 @@ a:hover { color: var(--color-accent-hover); }
 .mini-viz circle, .mini-viz rect, .mini-viz polygon { stroke: var(--viz-line); stroke-width: 1; }
 .mini-viz .v-b { fill: var(--viz-b); opacity: 0.32; animation: viz-pulse 3.4s ease-in-out infinite; }
 .mini-viz .v-a { fill: var(--viz-a); opacity: 0.32; animation: viz-pulse 3.4s ease-in-out infinite; }
+.mini-viz .v-y { fill: var(--viz-y-pale); opacity: 0.32; animation: viz-pulse 3.4s ease-in-out infinite; }
 .mini-viz .v-line { stroke: var(--viz-line); fill: none; }
 .skill-icon { width: 22px; height: 22px; display: block; margin-bottom: 8px; color: var(--viz-y1); animation: skill-icon-color 3.6s ease-in-out infinite; }
 .skill-icon * { stroke: currentColor; }
@@ -108,7 +110,7 @@ a:hover { color: var(--color-accent-hover); }
   50% { opacity: 1; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .mini-viz .v-b, .mini-viz .v-a { animation: none; opacity: 0.8; }
+  .mini-viz .v-b, .mini-viz .v-a, .mini-viz .v-y { animation: none; opacity: 0.8; }
   .skill-icon, .bio-icon { animation: none; color: var(--viz-y1); }
 }
 .mini-viz-caption { font-family: var(--font-sans); font-size: 0.8rem; color: var(--color-ink-soft); margin-top: 10px; }
