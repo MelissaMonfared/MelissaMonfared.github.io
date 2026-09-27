@@ -133,7 +133,7 @@ a:hover { color: var(--color-accent-hover); }
 .tag-label { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; font-family: var(--font-sans); font-weight: 600; font-size: 0.95rem; color: var(--color-ink); margin: 0 0 8px; }
 .tag-label::before { content: "\203A"; color: var(--color-accent); font-weight: 700; }
 .tag-label .skill-icon { width: 18px; height: 18px; margin-bottom: 0; }
-.tag-list { font-family: var(--font-sans); color: var(--color-ink-soft); font-size: 0.97rem; max-width: var(--measure-wide); line-height: 1.9; margin: 0; text-align: left; }
+.tag-list { font-family: var(--font-sans); color: var(--color-ink-soft); font-size: 0.97rem; max-width: var(--measure-wide); line-height: 1.9; margin: 0; text-align: justify; }
 .tag-list .dot { color: var(--color-line); margin: 0 10px; }
 .tag-caption { font-family: var(--font-serif); font-style: italic; color: var(--color-ink-soft); font-size: 0.92rem; margin: 8px 0 0; }
 .about-tags .tag-label, .about-tags .tag-list, .about-tags .tag-caption { font-size: 1.05rem; }
