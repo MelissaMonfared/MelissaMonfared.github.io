@@ -2264,8 +2264,8 @@
     this.nearK += ((this.near || this.grab ? 1 : 0) - this.nearK) * 0.08;
 
     var R = this.unit, cx = this.pos[0], cy = this.pos[1];
-    var yaw = this.ax + this.dYaw, pitch = clamp(0.42 + this.ay + this.dPitch, 0.12, 1.0);
-    var cyw = Math.cos(yaw), syw = Math.sin(yaw), cp = Math.cos(pitch), sp = Math.sin(pitch), D = 12;
+    var yaw = this.ax + this.dYaw, pitch = clamp(0.24 + this.ay + this.dPitch, 0.08, 1.0);
+    var cyw = Math.cos(yaw), syw = Math.sin(yaw), cp = Math.cos(pitch), sp = Math.sin(pitch), D = 20;
     var intro = REDUCED ? 1 : ease((t - this.t0) / 2000);
     var boost = 1 + this.nearK * 1.3 + clamp(Math.abs(this.vYaw) * 25, 0, 2.2);
     var spd = REDUCED ? 0 : 0.0008 * boost * dt;
