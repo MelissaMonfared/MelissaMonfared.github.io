@@ -1138,7 +1138,7 @@
         }
         var qed = REDUCED ? 1 : clamp((el - nL * LT) / 400, 0, 1);
         if (qed > 0) it.push({ k: 'txt', layer: 4, p: [x1 - 0.32, y0 + 0.09, 0.03], text: 'QED \u220E', size: 10.5, weight: 700, col: '#1f6f9f', alpha: qed });
-        it.push({ k: 'txt', layer: 4, p: [(x0 + x1) / 2, y0 - 0.14, 0], text: '40+ machine-checked results', size: 9.5, weight: 600, col: '#15803d' });
+        it.push({ k: 'txt', layer: 4, p: [(x0 + x1) / 2, y0 - 0.14, 0], text: '32 machine-checked lemmas and theorems', size: 9, weight: 600, col: '#15803d' });
         var sweep = REDUCED ? 8 : Math.min(8, Math.floor(el / 450)), Vs = s.V[sweep];
         for (i = 0; i < s.E.length; i++) {
           var A = s.N[s.E[i][0]], B = s.N[s.E[i][1]], best = s.pol[s.E[i][0]] === s.E[i][1] && sweep >= 8;
@@ -1233,7 +1233,7 @@
           if (k >= n) {
             var pop = REDUCED ? 1 : backOut((el - done - (J.idx ? 300 : 0)) / 600);
             if (pop > 0) it.push({ k: 'txt', layer: 6, p: [J.x, floor + 0.76 + 0.05 * pop, 0], text: J.score, size: 10 * clamp(pop, 0.3, 1.1), weight: 700, col: J.idx ? '#c27c00' : '#64748b' });
-            if (J.idx && pop > 0.5) it.push({ k: 'txt', layer: 6, p: [J.x, floor + 0.93, 0], text: '74.70% held-out', size: 8, weight: 600, col: '#15803d', alpha: clamp((pop - 0.5) * 2, 0, 1) });
+            if (J.idx && pop > 0.5) it.push({ k: 'txt', layer: 6, p: [J.x, floor + 0.93, 0], text: 'won 63.6% of windows', size: 8, weight: 600, col: '#15803d', alpha: clamp((pop - 0.5) * 2, 0, 1) });
           }
         });
         return it;
@@ -1664,12 +1664,15 @@
           var an = i / 12 * 6.2832, su = 0.5 + Math.cos(an) * 0.3 * (H / W), sv = 0.5 + Math.sin(an) * 0.3;
           it.push({ k: 'txt', layer: 4, p: [pole[0] + su * W, top - sv * H, pole[2] + wave(su) + 0.01], text: '\u2605', size: 7.5, col: '#ffcc00' });
         }
-        var gx = 1.15, gz = 0.45, gh = [0.12, 0.2, 0.3], el = startPlay(s, api);
-        for (i = 0; i < 3; i++) {
-          var gg = REDUCED ? 1 : backOut((el - 300 - i * 160) / 700);
-          it.push({ k: 'box', min: [gx + i * 0.11, floor, gz], max: [gx + i * 0.11 + 0.08, floor + Math.max(0.01, gh[i] * gg), gz + 0.08], pal: P3(['#76c893', '#52b788', '#2d6a4f'][i]) });
-        }
-        it.push({ k: 'txt', layer: 6, p: [gx + 0.15, floor - 0.1, gz + 0.1], text: 'growth', size: 9, col: '#4b5c72' });
+        var el = startPlay(s, api), px0 = 1.05, px1 = 1.6, py0 = floor + 0.04, py1 = floor + 0.52, pz = 0.5, zy = (py0 + py1) / 2;
+        it.push({ k: 'poly', layer: 2, pts: [[px0, py0, pz], [px1, py0, pz], [px1, py1, pz], [px0, py1, pz]], fill: 'rgba(255,255,255,0.95)', stroke: '#c9d8e6', sw: 1 });
+        it.push({ k: 'ln', layer: 3, a: [px0 + 0.03, zy, pz + 0.01], b: [px1 - 0.03, zy, pz + 0.01], col: 'rgba(75,92,114,0.7)', w: 1, dash: [3, 2] });
+        [['#e9a23b', -0.05, 0.05], ['#2a9d8f', 0.02, 0.17], ['#3d93c9', 0.0, 0.05]].forEach(function (e, ei) {
+          var ex = px0 + 0.12 + ei * 0.155, gg = REDUCED ? 1 : clamp((el - 300 - ei * 200) / 600, 0, 1);
+          it.push({ k: 'ln', layer: 3, a: [ex, zy + (e[1] - e[2]) * gg, pz + 0.02], b: [ex, zy + (e[1] + e[2]) * gg, pz + 0.02], col: e[0], w: 2 });
+          it.push({ k: 'pt', layer: 4, p: [ex, zy + e[1] * gg, pz + 0.03], r: 3.4, pal: P3(e[0]) });
+        });
+        it.push({ k: 'txt', layer: 6, p: [(px0 + px1) / 2, floor - 0.1, pz], text: 'growth effect \u2248 0', size: 9, weight: 600, col: '#4b5c72' });
         return it;
       }
     },
@@ -2150,8 +2153,8 @@
 
   /* scale and centring per chart, measured across every hover angle and animation so nothing is cut off */
   var FIT = {
-    lean: [1.194, 0.057, 0.015],
-    dca: [1.104, -0.019, 0.01],
+    lean: [1.197, 0.057, 0.016],
+    dca: [1.104, -0.026, 0.01],
     press: [1.2, 0.015, -0.271],
     scatter: [0.834, 0.006, -0.055],
     hist: [1.178, 0.014, -0.056],
@@ -2170,7 +2173,7 @@
     weather: [0.999, 0.006, 0.005],
     equalizer: [0.924, -0.045, -0.013],
     piano: [1.007, 0.018, 0.004],
-    eu: [1.096, 0.008, -0.147],
+    eu: [1.096, -0.015, -0.147],
     orderbook: [1.065, 0.003, -0.161],
     volsurface: [0.863, 0.005, -0.024],
     flights: [1.01, 0.0, -0.085],
