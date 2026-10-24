@@ -1900,55 +1900,62 @@
     },
 
     clusters: {
-      pitch: 0.42, spanX: 3.5, spanY: 2.1, offY: 0.0, hoverYaw: 0.36, hoverPitch: 0.12,
+      pitch: 0.56, spanX: 3.1, spanY: 2.0, offY: 0.0, hoverYaw: 0.4, hoverPitch: 0.12,
       init: function (s) {
-        var r = rng(13), cz = [-0.42, 0, 0.42], HAIR = ['#3b2f2a', '#6b4a2b', '#d9a441', '#1f1a17'];
-        s.C = ['#3b82f6', '#f59e0b', '#14b8a6']; s.m = []; s.e = [];
-        for (var g = 0; g < 3; g++) {
-          for (var i = 0; i < 4; i++) {
-            s.m.push({ g: g, hair: HAIR[Math.floor(r() * 4)], home: [-0.95 + gauss(r) * 0.1, 0, cz[g] + gauss(r) * 0.06], from: [(r() - 0.5) * 2.6, 0, (r() - 0.5) * 1.1] });
-            s.e.push({ g: g, hair: HAIR[Math.floor(r() * 4)], home: [0.95 + gauss(r) * 0.1, 0, cz[g] + gauss(r) * 0.06], from: [(r() - 0.5) * 2.6, 0, (r() - 0.5) * 1.1] });
-          }
+        var r = rng(13), HAIR = ['#3b2f2a', '#6b4a2b', '#d9a441', '#1f1a17', '#8c5a3c'];
+        s.C = ['#4f86d1', '#e9a23b', '#2a9d8f', '#e76f51', '#52b788', '#4fb3d9'];
+        s.m = []; s.e = [];
+        for (var g = 0; g < 6; g++) {
+          var a = g * Math.PI / 3 + Math.PI / 6;
+          var ra = 0.5 + r() * 0.7, ta = r() * 6.2832;
+          s.m.push({ g: g, hair: HAIR[Math.floor(r() * 5)], home: [Math.cos(a) * 1.02, 0, Math.sin(a) * 1.02], from: [Math.cos(ta) * ra, 0, Math.sin(ta) * ra] });
+          ra = 0.4 + r() * 0.8; ta = r() * 6.2832;
+          s.e.push({ g: g, hair: HAIR[Math.floor(r() * 5)], home: [Math.cos(a) * 0.6, 0, Math.sin(a) * 0.6], from: [Math.cos(ta) * ra, 0, Math.sin(ta) * ra] });
         }
         s.p0 = null;
       },
       show: show0,
       build: function (s, api) {
-        var el = startPlay(s, api), it = [], floor = -0.55, i;
-        if (el > 4300 && api.hovering) { s.p0 = api.t; el = 0; }
-        var seg = REDUCED ? 1 : ease(el / 1100);
-        for (i = -3; i <= 3; i++) it.push({ k: 'ln', layer: 0, a: [i * 0.45, floor, -0.75], b: [i * 0.45, floor, 0.75], col: 'rgba(160,180,200,0.25)' });
-        for (i = -2; i <= 2; i++) it.push({ k: 'ln', layer: 0, a: [-1.4, floor, i * 0.35], b: [1.4, floor, i * 0.35], col: 'rgba(160,180,200,0.25)' });
-        for (var g = 0; g < 3; g++) {
-          var col = hex(s.C[g]), z = [-0.42, 0, 0.42][g];
-          it.push({ k: 'pl', layer: 0, zb: 5, pts: ring([-0.95, floor, z], 0.22, 28, 'xz'), closed: true, fill: rgba(col, 0.15 * seg), col: rgba(col, 0.45 * seg), w: 1 });
-          it.push({ k: 'pl', layer: 0, zb: 5, pts: ring([0.95, floor, z], 0.22, 28, 'xz'), closed: true, fill: rgba(col, 0.15 * seg), col: rgba(col, 0.45 * seg), w: 1 });
-          if (seg > 0.6) it.push({ k: 'txt', layer: 6, p: [-1.38, floor + 0.02, z], text: 'ABC'.charAt(g), size: 10, weight: 700, col: s.C[g], alpha: seg });
+        var el = startPlay(s, api), it = [], floor = -0.5, i, t = api.t;
+        if (el > 5200 && api.hovering) { s.p0 = api.t; el = 0; }
+        var seg = REDUCED ? 1 : ease(el / 1200);
+        for (var g = 0; g < 6; g++) {
+          var a = g * Math.PI / 3 + Math.PI / 6, col = hex(s.C[g]);
+          [[0.82, 1.24, 0.62], [0.3, 0.82, 0.42]].forEach(function (zone, zi) {
+            var pad = [];
+            for (i = 0; i <= 10; i++) { var aa = a - 0.48 + i * 0.096; pad.push([Math.cos(aa) * zone[1], floor, Math.sin(aa) * zone[1]]); }
+            for (i = 10; i >= 0; i--) { var ab = a - 0.48 + i * 0.096; pad.push([Math.cos(ab) * zone[0], floor, Math.sin(ab) * zone[0]]); }
+            it.push({ k: 'pl', layer: 0, zb: 2 + zi, pts: pad, closed: true, fill: rgba(mix(col, WHITE, zone[2]), 0.7 * seg), col: rgba(WHITE, 0.9 * seg), w: 1.5 });
+          });
+          if (seg > 0.5) it.push({ k: 'txt', layer: 6, p: [Math.cos(a) * (Math.sin(a) < -0.5 ? 1.58 : 1.4), floor + 0.02, Math.sin(a) * (Math.sin(a) < -0.5 ? 1.58 : 1.4)], text: 'ABCDEF'.charAt(g), size: 9.5, weight: 700, col: s.C[g], alpha: (seg - 0.5) * 2 });
         }
+        var pul = REDUCED ? 0.5 : 0.5 + 0.5 * Math.sin(t * 0.004);
+        it.push({ k: 'pl', layer: 0, zb: 5, pts: ring([0, floor, 0], 0.26 + 0.02 * pul, 28, 'xz'), closed: true, fill: 'rgba(255,255,255,0.95)', col: 'rgba(79,134,209,0.55)', w: 1.4 });
+        it.push({ k: 'txt', layer: 6, p: [0, floor + 0.01, 0], text: 'k = 6', size: 10, weight: 700, col: '#2b3a4f' });
         function person(pp, c, light, hv, hair) {
           var body = light ? palFrom(mix(c, WHITE, 0.45)) : palFrom(c);
-          it.push({ k: 'cyl', b: [pp[0], floor + hv, pp[2]], r: 0.045, h: 0.12, n: 10, pal: body });
-          it.push({ k: 'pt', p: [pp[0], floor + 0.205 + hv, pp[2] - 0.012], r: 4.6, pal: P3(hair) });
-          it.push({ k: 'pt', p: [pp[0], floor + 0.18 + hv, pp[2]], r: 4.6, pal: P3('#f6d2b8'), style: 'face' });
+          it.push({ k: 'pl', layer: 0, zb: 6, pts: ring([pp[0], floor, pp[2]], 0.05, 10, 'xz'), closed: true, fill: 'rgba(40,50,70,0.12)' });
+          it.push({ k: 'cyl', b: [pp[0], floor + hv, pp[2]], r: 0.04, h: 0.11, n: 10, pal: body });
+          it.push({ k: 'pt', zb: -0.06, p: [pp[0], floor + 0.185 + hv, pp[2] - 0.015], r: 4.4, pal: P3(hair) });
+          it.push({ k: 'pt', p: [pp[0], floor + 0.165 + hv, pp[2]], r: 4.2, pal: P3('#f6d2b8'), style: 'face' });
         }
         for (i = 0; i < s.m.length; i++) {
           var A = lerp3(s.m[i].from, s.m[i].home, seg), B = lerp3(s.e[i].from, s.e[i].home, seg), c = hex(s.C[s.m[i].g]);
-          var f = REDUCED ? 1 : clamp((el - 1200 - i * 90) / 700, 0, 1), since = el - 1900 - i * 90;
-          var hv = f >= 1 && since >= 0 && since < 420 ? 0.06 * Math.sin(since / 420 * Math.PI) : 0;
+          var f = REDUCED ? 1 : clamp((el - 1300 - i * 260) / 600, 0, 1), since = el - 1900 - i * 260;
+          var hv = f >= 1 && since >= 0 && since < 420 ? 0.05 * Math.sin(since / 420 * Math.PI) : 0;
           if (f > 0) {
             var pts = [];
-            for (var k = 0; k <= 18; k++) { var u = k / 18 * f; pts.push([lerp(A[0], B[0], u), floor + 0.24 + 0.3 * Math.sin(Math.PI * u), lerp(A[2], B[2], u)]); }
-            it.push({ k: 'pl', pts: pts, col: rgba(c, 0.6), w: 1.4 });
-            if (f < 1) it.push({ k: 'pt', layer: 4, p: pts[pts.length - 1], r: 3.4, pal: palFrom(mix(c, WHITE, 0.55)) });
-            else if (since >= 0 && since < 700) it.push({ k: 'txt', layer: 6, p: pts[9], text: '\u2726', size: 12, col: '#f5b301', alpha: 1 - since / 700 });
+            for (var k = 0; k <= 14; k++) { var u = k / 14 * f; pts.push([lerp(A[0], B[0], u), floor + 0.2 + 0.18 * Math.sin(Math.PI * u), lerp(A[2], B[2], u)]); }
+            it.push({ k: 'pl', layer: 3, pts: pts, col: rgba(c, 0.75), w: 1.4 });
+            if (f < 1) it.push({ k: 'pt', layer: 4, p: pts[pts.length - 1], r: 3, pal: palFrom(mix(c, WHITE, 0.5)) });
+            else if (since >= 0 && since < 700) it.push({ k: 'txt', layer: 6, p: pts[7], text: '\u2726', size: 11, col: '#f5b301', alpha: 1 - since / 700 });
           }
           person(A, c, false, hv, s.m[i].hair);
           person(B, c, true, hv, s.e[i].hair);
         }
-        it.push({ k: 'txt', layer: 6, p: [-0.95, floor - 0.1, 0.72], text: 'mentors', size: 10.5, col: '#4b5c72' });
-        it.push({ k: 'txt', layer: 6, p: [0.95, floor - 0.1, 0.72], text: 'mentees', size: 10.5, col: '#4b5c72' });
-        var tick = REDUCED ? 0 : (api.t * 0.0012) % 6.2832;
-        it.push({ k: 'sprite', layer: 6, p: [1.45, 0.42, -0.4], size: 11, t: tick, draw: function (ctx, x, y, kk, o) {
+        it.push({ k: 'txt', layer: 6, p: [0, floor - 0.12, 1.42], text: 'mentors outside, mentees inside', size: 9, col: '#4b5c72' });
+        var tick = REDUCED ? 0 : (t * 0.0012) % 6.2832;
+        it.push({ k: 'sprite', layer: 6, p: [1.42, 0.0, -0.95], size: 9, t: tick, draw: function (ctx, x, y, kk, o) {
           var R = o.size * kk; ctx.save(); ctx.translate(x, y);
           ctx.fillStyle = '#ffffff'; ctx.strokeStyle = '#2b3a4f'; ctx.lineWidth = 1.4;
           ctx.beginPath(); ctx.arc(0, 0, R, 0, 6.2832); ctx.fill(); ctx.stroke();
@@ -2178,7 +2185,7 @@
     volsurface: [0.863, 0.005, -0.024],
     flights: [1.01, 0.0, -0.085],
     bandit: [1.133, -0.01, -0.123],
-    clusters: [0.931, -0.011, -0.076],
+    clusters: [0.732, -0.0, -0.156],
     bitcoin: [0.924, -0.017, -0.006],
     health: [1.2, 0.016, -0.024],
     skincare: [1.2, -0.014, -0.232]
