@@ -361,3 +361,58 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--color-accent); 
 @media (max-width: 760px) { .about-main .bio { grid-template-columns: 1fr; } }
 
 .about-main .bio-row:nth-child(3) p { text-align: left; hyphens: manual; }
+
+/* ------------------------------------------------------------------ one page: sticky menu, parts */
+.site-header { padding-bottom: 0; border-bottom: 0; margin-bottom: 0; }
+.nav-wrap { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 10px); z-index: 40; padding: 0 0 26px; pointer-events: none; }
+.nav-wrap .pill-nav { pointer-events: auto; background: rgba(255,255,255,0.86); -webkit-backdrop-filter: blur(10px) saturate(1.2); backdrop-filter: blur(10px) saturate(1.2); }
+.nav-wrap.is-stuck .pill-nav { box-shadow: 0 10px 28px -14px rgba(22,35,58,0.35), 0 0 0 1px rgba(255,255,255,0.6) inset; }
+.js .nav-wrap { animation: rise .7s cubic-bezier(.2,.7,.2,1) .18s both; }
+main { border-top: 1px solid var(--color-line); padding-top: 40px; }
+.page-part { scroll-margin-top: 78px; }
+.page-part + .page-part { margin-top: 104px; }
+.part-title { font-size: 2.05rem; font-weight: 600; letter-spacing: -0.01em; margin: 0 0 34px; padding-bottom: 16px; border-bottom: 2px solid var(--color-line); gap: 14px; }
+.part-ico { --pc: var(--color-accent); display: inline-grid; place-items: center; width: 42px; height: 42px; border-radius: 13px; color: var(--pc);
+  background: color-mix(in srgb, var(--pc) 13%, #fff); border: 1px solid color-mix(in srgb, var(--pc) 30%, #fff); }
+.part-ico svg { width: 22px; height: 22px; }
+
+/* About cards get a small heading */
+.bio-body { min-width: 0; flex: 1; }
+.bio-title { font-family: var(--font-sans); font-size: 0.74rem; font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--color-accent);
+  margin: 1px 0 7px; padding: 0; border: 0; display: block; }
+
+/* CV entries become separate cards */
+#cv .entry { margin-bottom: 14px; padding: 20px 22px; border: 1px solid var(--color-line); border-radius: 18px; background: rgba(255,255,255,0.74);
+  box-shadow: 0 10px 24px -20px rgba(22,35,58,0.4); }
+#cv .entry:hover { border-color: #c6dbea; }
+#cv section .entry:last-child { margin-bottom: 0; }
+
+/* links without the word "link" */
+.title-link { color: inherit; text-decoration: none; background-image: linear-gradient(var(--color-accent), var(--color-accent)); background-repeat: no-repeat;
+  background-position: 0 100%; background-size: 0 1.5px; transition: background-size .35s ease, color .2s ease; }
+.title-link:hover, .title-link:focus-visible { color: var(--color-accent); background-size: 100% 1.5px; }
+.title-link .go { display: inline-block; width: 0.78em; height: 0.78em; margin-left: 0.28em; vertical-align: -0.04em; opacity: 0; transform: translate(-5px, 5px);
+  transition: opacity .25s ease, transform .3s cubic-bezier(.2,.7,.2,1); }
+.title-link:hover .go, .title-link:focus-visible .go { opacity: 1; transform: none; }
+.project-card { position: relative; }
+.code-badge { position: absolute; top: 22px; right: 24px; z-index: 3; display: inline-flex; align-items: center; height: 30px; padding: 0 8px; border-radius: 999px;
+  background: rgba(255,255,255,0.92); border: 1px solid var(--color-line); color: var(--color-accent); text-decoration: none; font: 600 0.78rem/1 var(--font-sans);
+  box-shadow: 0 4px 12px -6px rgba(22,35,58,0.3); transition: transform .25s ease, box-shadow .25s ease, background-color .2s ease, color .2s ease; }
+.code-badge svg { width: 15px; height: 15px; flex: none; }
+.code-badge span { max-width: 0; opacity: 0; overflow: hidden; white-space: nowrap; transition: max-width .3s ease, opacity .25s ease, margin .3s ease; }
+.project-card:hover .code-badge { transform: translateY(-2px) rotate(-4deg); box-shadow: 0 8px 18px -8px rgba(30,78,121,0.45); }
+.code-badge:hover, .code-badge:focus-visible { background: var(--color-accent); color: #fff; transform: translateY(-2px); }
+.code-badge:hover span, .code-badge:focus-visible span { max-width: 80px; opacity: 1; margin-left: 6px; }
+.code-chip { display: inline-flex; align-items: center; gap: 5px; margin-left: 10px; padding: 2px 9px 2px 7px; border-radius: 999px; border: 1px solid var(--color-line);
+  background: #fff; color: var(--color-accent); font: 600 0.72rem/1.6 var(--font-sans); text-decoration: none; vertical-align: 3px;
+  transition: background-color .2s ease, color .2s ease, transform .2s ease; }
+.code-chip svg { width: 13px; height: 13px; }
+.code-chip:hover, .code-chip:focus-visible { background: var(--color-accent); color: #fff; transform: translateY(-1px); }
+@media (max-width: 640px) {
+  .part-title { font-size: 1.7rem; margin-bottom: 26px; }
+  .page-part + .page-part { margin-top: 80px; }
+  #cv .entry { padding: 16px 16px; }
+  .code-badge { top: 18px; right: 18px; }
+}
+@media (prefers-reduced-motion: reduce) { .js .nav-wrap { animation: none; } }
+.title-link + .code-chip { margin-left: 4px; }
